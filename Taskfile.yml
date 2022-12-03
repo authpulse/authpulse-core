@@ -12,3 +12,10 @@ tasks:
     cmds:
       - go test -v ./...
     silent: true
+  dbuild:
+    cmds:
+      - docker build -t authpulse:local .
+    silent: true
+  dstart:
+    cmds:
+      - docker run -p 8080:8080 -e GIN_MODE authpulse:local

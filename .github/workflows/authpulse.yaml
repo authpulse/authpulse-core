@@ -29,3 +29,17 @@ jobs:
         go-version: "${{ env.GOLANG_VERSION }}"
     - name: Run tests
       run: go test -v ./...
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build docker image
+      run: docker build -t ghcr.io/arthureichelberger/authpulse:latest .
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Push to github registry
+      run: docker push ghcr.io/arthureichelberger/authpulse:latest
