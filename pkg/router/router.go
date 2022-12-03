@@ -13,7 +13,7 @@ func Run(ctx context.Context, addr string, handler http.Handler) error {
 
 	go func() {
 		<-ctx.Done()
-		srv.Shutdown(context.Background())
+		_ = srv.Shutdown(context.Background())
 	}()
 
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
