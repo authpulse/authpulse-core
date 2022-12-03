@@ -1,0 +1,14 @@
+version: '3'
+
+env:
+  GIN_MODE: release
+
+tasks:
+  start:
+    cmds:
+      - go run main.go
+    silent: true
+  test:
+    cmds:
+      - go test -v ./...
+    silent: true
