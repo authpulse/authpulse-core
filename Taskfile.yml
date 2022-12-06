@@ -18,4 +18,4 @@ tasks:
     silent: true
   dstart:
     cmds:
-      - docker run -p 8080:8080 -e GIN_MODE authpulse:local
+      - docker run -p 8080:8080 -e GIN_MODE -e DATABASE_HOST=host.docker.internal authpulse:local

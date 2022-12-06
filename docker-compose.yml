@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: authpulse
+      POSTGRES_PASSWORD: authpulse
+      POSTGRES_DB: authpulse
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  postgres:
+    driver: local
