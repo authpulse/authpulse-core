@@ -1,7 +1,6 @@
 version: '3'
 
-env:
-  GIN_MODE: release
+dotenv: ['.env']
 
 tasks:
   start:
@@ -18,4 +17,4 @@ tasks:
     silent: true
   dstart:
     cmds:
-      - docker run -p 8080:8080 -e GIN_MODE -e DATABASE_HOST=host.docker.internal authpulse:local
+      - docker run -p 8080:8080 --env-file .env -e DATABASE_HOST=host.docker.internal authpulse:local
