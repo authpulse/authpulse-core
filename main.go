@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -41,7 +42,13 @@ func main() {
 	registerAuthGrp.GET("/github/callback", oAuthCallback(githubOAuthenticator, oauth.GetGithubUser(http.DefaultClient)))
 
 	log.Debug().Msg("Starting server")
-	if err := router.Run(ctx, ":8080", r); err != nil {
+
+	listener, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to create listener")
+	}
+
+	if err := router.Run(ctx, listener, r); err != nil {
 		log.Fatal().Err(err).Msg("Server crashed")
 	}
 }
