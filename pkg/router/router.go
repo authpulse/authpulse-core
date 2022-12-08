@@ -2,21 +2,22 @@ package router
 
 import (
 	"context"
+	"net"
 	"net/http"
+
+	"github.com/rs/zerolog/log"
 )
 
-func Run(ctx context.Context, addr string, handler http.Handler) error {
-	srv := &http.Server{
-		Addr:    addr,
-		Handler: handler,
-	}
+func Run(ctx context.Context, listener net.Listener, handler http.Handler) error {
+	srv := &http.Server{Handler: handler}
 
 	go func() {
 		<-ctx.Done()
 		_ = srv.Shutdown(context.Background())
 	}()
 
-	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
+	log.Debug().Int("port", listener.Addr().(*net.TCPAddr).Port).Msg("starting server")
+	if err := srv.Serve(listener); err != http.ErrServerClosed {
 		return err
 	}
 

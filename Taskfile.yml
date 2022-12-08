@@ -9,6 +9,7 @@ tasks:
     silent: true
   test:
     cmds:
+      - go clean -testcache
       - go test -v ./...
     silent: true
   dbuild:
